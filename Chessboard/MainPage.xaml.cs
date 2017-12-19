@@ -1,4 +1,4 @@
-﻿//Cormac Raftery G00348802
+//Cormac Raftery G00348802
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -116,11 +116,11 @@ namespace Chessboard
             tileImage.Width = _iHeight * 0.99;
             tileImage.Source = bitmapImage;
             tileImage.Tapped += TileImage_Tapped;
-            tileImage.Tag = 1;
+            tileImage.Tag = explode;
+            tileImage.Name = "flag";
             localBoard.Children.Add(tileImage);
             tileImage.SetValue(Grid.RowProperty, (int)current.GetValue(Grid.RowProperty));
             tileImage.SetValue(Grid.ColumnProperty, (int)current.GetValue(Grid.ColumnProperty));
-          //  Image image = FindName("bomb_" + (namerow + i).ToString() + "_" + (namecol + j).ToString()) as Image;
         }
 
         private void setupTheMines()
@@ -164,18 +164,24 @@ namespace Chessboard
         }
         private async void TileImage_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            amountOfClicks++;
-            if(amountOfClicks==(_rows*_rows))
-            {
-                var Msg = new MessageDialog(elapsedTime, "You win!");
-                await Msg.ShowAsync();
-            }
+            
             int row, col;
             Image current = (Image)sender;
             explode = Convert.ToInt32(current.Tag);
             row = Convert.ToInt32((int)current.GetValue(Grid.RowProperty));
             col = Convert.ToInt32((int)current.GetValue(Grid.ColumnProperty));
 
+            if(current.Name.Equals("flag"))
+            {}
+            else
+            {
+                amountOfClicks++;
+            }
+            if (amountOfClicks == (_rows * _rows))
+            {
+                var Msg = new MessageDialog(elapsedTime, "You win!");
+                await Msg.ShowAsync();
+            }
             if (explode == 1)
             {
                 Image tileImage;
